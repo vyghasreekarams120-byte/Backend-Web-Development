@@ -13,4 +13,11 @@
 
 module.exports = function timing(req, res, next) {
   // TODO: capture start, register res.on('finish', ...) to log elapsed ms, then next().
+  const start = Date.now();
+  res.on('finish', () => {
+    const elapsed_time = Date.now() - start;
+    const prefix = req.id ? `[${req.id.slice(0, 8)}] ` : '';
+    console.log(`${prefix}${req.method} ${req.path} took ${elapsed_time}ms`);
+  });
+  next();
 };
