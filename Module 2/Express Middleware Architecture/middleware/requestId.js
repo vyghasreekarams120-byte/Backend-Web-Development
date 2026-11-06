@@ -12,4 +12,6 @@ const { randomUUID } = require('crypto');
 
 module.exports = function requestId(req, res, next) {
   // TODO: implement the four steps described above.
+  res.on('finish', () => {
+    const prefix = req.id ? '[${req'
 };

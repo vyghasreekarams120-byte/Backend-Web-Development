@@ -18,6 +18,7 @@ const { body, validationResult } = require('express-validator');
 const router = express.Router();
 const ctrl = require('./../controllers/articlesController');
 
+
 // INLINE validation result check — should move to utils/validateRequest.js
 function checkValidation(req, res, next) {
   const errors = validationResult(req);
@@ -32,16 +33,14 @@ router.get('/', ctrl.list);
 // INLINE chains — should move to validators/article.validator.js
 router.post(
   '/',
-  body('title').notEmpty().withMessage('Title is required').trim(),
-  body('body').notEmpty().isLength({ max: 2000 }).withMessage('Body is required and must be under 2000 characters'),
+  createArticles,
   checkValidation,
   ctrl.create
 );
 
 router.patch(
   '/:id',
-  body('title').optional().notEmpty().trim(),
-  body('body').optional().isLength({ max: 2000 }),
+  updaateArticle,
   checkValidation,
   ctrl.update
 );

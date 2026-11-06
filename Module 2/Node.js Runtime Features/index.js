@@ -33,10 +33,16 @@ function readWholeFile() {
 // ── PART 2: stream the file and pipe it to a writable stream ────────────────
 function streamFile() {
   // TODO: create a readable stream with fs.createReadStream(INPUT).
+  const readable = fs.createReadStream(INPUT);
   // TODO: create a writable stream with fs.createWriteStream(OUTPUT).
+  const writable = fs.createWriteStream(OUTPUT);
   // TODO: pipe the readable into the writable: readable.pipe(writable).
+  readable.pipe(writable);
   // TODO: listen for the writable's "finish" event and log a done message,
   //       e.g. "stream: finished copying via 64KB chunks (flat memory)".
+  writable.on('finish', () => {
+    console.log('stream: finished copying via 64KB chunks (flat memory)');
+  });
 }
 
 // ── PART 3: explain the difference ──────────────────────────────────────────
@@ -46,8 +52,8 @@ function streamFile() {
 //       so peak memory stays flat regardless of file size.
 //
 // YOUR EXPLANATION:
-//
-
+//fs.readFile() holds the whole file in memory at once, so memory usage grows arge files. In contrast, streaming reads the file in smaller chunks, allowing for a more efficient use of memory and enabling the processing of files that are larger than the available system memory. This makes streaming a better approach for handling large files.
+//with the file size. A stream moves the file in smaller chunks instead of loading every thing 
 // Run both approaches.
 readWholeFile();
 streamFile();
